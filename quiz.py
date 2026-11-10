@@ -14,7 +14,7 @@ class QuizGame:
         self.best_score = self.load_best_score() # 시작할 때 최고 점수 불러오기
 
     def add_quiz(self, quiz):
-        self.quizzes.append(quiz) # 오타 수정: self.quizzes.append(quiz)
+        self.quizzes.append(quiz) 
 
     # 최고 점수를 파일(score.json)에서 읽어오는 함수
     def load_best_score(self):
