@@ -48,3 +48,8 @@ state.json: 퀴즈 데이터와 최고 점수가 저장되는 데이터 파일�
    git commit -m "docs: README.md 작성 완료"
    git push origin main
 
+## 8. Git 실습 :별도의 디렉토리에서 추가된 내용입니다.
+
+git add README.md
+git commit -m "docs: 실습을 위한 README 수정"
+git push origin main
