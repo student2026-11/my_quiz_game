@@ -1,68 +1,55 @@
 import json
 import os
 
-class Quiz:
-    def __init__(self, question, options, answer):
-        self.question = question
-        self.options = options
-        self.answer = answer
-
-class QuizGame:
+class QuizManager:
     def __init__(self):
-        self.quizzes = []
-        self.score = 0
-        self.best_score = self.load_best_score() # 시작할 때 최고 점수 불러오기
+        self.filename = "state.json"
+        # 기본 데이터 설정
+        self.default_data = {
+            "quizzes": [
+                {"question": "파이썬의 탄생 연도는?", "options": ["1989", "1991", "1995", "2000"], "answer": 2},
+                {"question": "대한민국의 수도는?", "options": ["부산", "인천", "서울", "대구"], "answer": 3},
+                {"question": "가장 큰 행성은?", "options": ["지구", "화성", "목성", "토성"], "answer": 3}
+            ],
+            "best_score": 0
+        }
+        self.data = self.load_state()
 
-    def add_quiz(self, quiz):
-        self.quizzes.append(quiz) 
+    def load_state(self):
+        """파일에서 데이터를 읽어옵니다. 파일이 없으면 기본 데이터를 반환합니다."""
+        try:
+            if not os.path.exists(self.filename):
+                return self.default_data
+            with open(self.filename, "r", encoding="utf-8") as f:
+                return json.load(f)
+        except (json.JSONDecodeError, IOError):
+            return self.default_data
 
-    # 최고 점수를 파일(score.json)에서 읽어오는 함수
-    def load_best_score(self):
-        if os.path.exists("score.json"):
-            with open("score.json", "r", encoding="utf-8") as f:
-                data = json.load(f)
-                return data.get("best_score", 0)
-        return 0
+    def save_state(self):
+        """현재 데이터를 state.json 파일에 저장합니다."""
+        try:
+            with open(self.filename, "w", encoding="utf-8") as f:
+                json.dump(self.data, f, ensure_ascii=False, indent=4)
+        except IOError as e:
+            print(f"❌ 파일 저장 오류: {e}")
 
-    # 최고 점수를 파일에 저장하는 함수
-    def save_best_score(self, score):
-        with open("score.json", "w", encoding="utf-8") as f:
-            json.dump({"best_score": score}, f)
+    def add_quiz(self, question, options, answer):
+        """새로운 퀴즈를 추가합니다."""
+        self.data["quizzes"].append({"question": question, "options": options, "answer": answer})
+        self.save_state()
 
-    def start(self):
-        self.score = 0
-        print(f"\n📝 퀴즈를 시작합니다! (총 {len(self.quizzes)}문제)")
-        print("-" * 35)
+    def get_quizzes(self):
+        """퀴즈 목록을 가져옵니다."""
+        return self.data["quizzes"]
 
-        for i, quiz in enumerate(self.quizzes):
-            print(f"\n[문제 {i+1}]")
-            print(quiz.question)
-            for j, option in enumerate(quiz.options):
-                print(f"{j+1}. {option}")
-            
-            try:
-                user_input = int(input("\n정답 입력: "))
-                if user_input == quiz.answer:
-                    print("✅ 정답입니다!")
-                    self.score += 1
-                else:
-                    print(f"❌ 틀렸습니다. 정답은 {quiz.answer}번입니다.")
-            except ValueError:
-                print("⚠️ 숫자만 입력해주세요!")
+    def update_best_score(self, score):
+        """최고 점수를 갱신합니다."""
+        if score > self.data["best_score"]:
+            self.data["best_score"] = score
+            self.save_state()
+            return True
+        return False
 
-        self.show_result()
-
-    def show_result(self):
-        total = len(self.quizzes)
-        percent = int((self.score / total) * 100)
-        
-        print("\n" + "="*40)
-        print(f"🏆 결과: {total}문제 중 {self.score}문제 정답! ({percent}점)")
-        
-        # 최고 점수 비교 및 갱신
-        if self.score > self.best_score:
-            print("🎉 새로운 최고 점수입니다!")
-            self.save_best_score(self.score)
-        else:
-            print(f"현재 최고 기록: {self.best_score}문제 정답")
-        print("="*40)
+    def get_best_score(self):
+        """최고 점수를 가져옵니다."""
+        return self.data["best_score"]
