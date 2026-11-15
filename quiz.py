@@ -7,9 +7,12 @@ class QuizManager:
         # 기본 데이터 설정
         self.default_data = {
             "quizzes": [
-                {"question": "파이썬의 탄생 연도는?", "options": ["1989", "1991", "1995", "2000"], "answer": 2},
+                {"question": "우리나라의 전통 고유 의상은 무엇일까요?", "options": ["치파오", "기모노", "한복", "사리"], "answer": 3},
                 {"question": "대한민국의 수도는?", "options": ["부산", "인천", "서울", "대구"], "answer": 3},
                 {"question": "가장 큰 행성은?", "options": ["지구", "화성", "목성", "토성"], "answer": 3}
+                {"question": "지구에서 가장 가까운 행성은?", "options": ["태양", "화성", "목성", "금성"], "answer": 1}
+                {"question": "빨간색과 파란색 물감을 섞으면 무슨색이 될까요?", "options": ["초록색", "노란색", "회색", "보라색"], "answer": 4}               
+
             ],
             "best_score": 0
         }
