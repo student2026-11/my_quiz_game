@@ -79,7 +79,7 @@ def main():
                 print(f"{i}. {q['question']} (정답: {q['answer']}번)")
 
         elif choice == '4':
-            print(f"\😊 최근 점수 : {last_score}점")
+            print(f"\n😊 최근 점수 : {last_score}점")
             print(f"\n🏆 최고 점수: {manager.get_best_score()}점")
 
         elif choice == '5':
