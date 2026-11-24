@@ -130,5 +130,5 @@ git push origin main
 - **원격 저장소 복제 및 동기화**: `git clone`으로 저장소를 내려받은 뒤, 작업 전후 `git pull`로 최신 변경사항을 반영해 충돌을 예방합니다.
 
 
-
+![alt text](image.png)
 
