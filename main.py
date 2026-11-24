@@ -15,6 +15,7 @@ def signal_handler(sig, frame):
 signal.signal(signal.SIGINT, signal_handler)
 
 #  함수 분리: 퀴즈 풀기 로직을 별도 함수로 만들어 main을 간결하게 함
+
 def run_quiz_session():
     quizzes = manager.get_quizzes()
     if not quizzes:
@@ -23,27 +24,36 @@ def run_quiz_session():
 
     score = 0
     for i, q in enumerate(quizzes, 1):
-        print(f"\n문제 {i}. {q['question']}")
-        for idx, opt in enumerate(q['options'], 1):
-            print(f"{idx}. {opt}")
-        
-        # 예외 처리: 숫자가 아닌 값을 입력했을 때 프로그램이 꺼지는 것을 방지
-        try:
-            ans = int(input("정답 번호: "))
-            if ans == q['answer']:
-                print("✅ 정답!")
-                score += 1
-            else:
-                print(f"❌ 오답! (정답: {q['answer']}번)")
-        except ValueError:
-            print("⚠️ 숫자만 입력 가능합니다. 다음 문제로 넘어갑니다.")
-    
+        max_num = len(q['options'])
+
+        while True:
+            print(f"\n문제 {i}. {q['question']}")
+            for idx, opt in enumerate(q['options'], 1):
+                print(f"{idx}. {opt}")
+
+            # 예외 처리: 숫자가 아니거나 1~선택지 개수를 벗어난 입력 시 해당 문제를 다시 보여줌
+            try:
+                ans = int(input(f"정답 번호 (1-{max_num}): "))
+                if 1 <= ans <= max_num:
+                    break
+                else:
+                    print(f"⚠️ 1부터 {max_num} 사이의 번호만 입력 가능합니다. 다시 시도해 주세요.")
+            except ValueError:
+                print("⚠️ 숫자만 입력 가능합니다. 다시 시도해 주세요.")
+
+        if ans == q['answer']:
+            print("✅ 정답!")
+            score += 1
+        else:
+            print(f"❌ 오답! (정답: {q['answer']}번)")
+
     # 점수 계산 및 최고 점수 업데이트
     final_score = int((score / len(quizzes)) * 100)
     print(f"\n🎊 최종 점수: {final_score}점")
     if manager.update_best_score(final_score):
         print("✨ 최고 점수 달성! ✨")
     return final_score
+
 
 def main():
     global manager
@@ -66,12 +76,16 @@ def main():
             print("\n📌 퀴즈 추가")
             question = input("문제 내용: ")
             options = [input(f"선택지 {i}: ") for i in range(1, 5)]
-            try:
-                answer = int(input("정답 번호 (1-4): "))
-                manager.add_quiz(question, options, answer)
-                print("✅ 저장 완료!")
-            except ValueError:
-                print("❌ 숫자를 입력해야 합니다.")
+            while True:
+                try:
+                    answer = int(input("정답 번호 (1-4): "))
+                    if 1 <= answer <= 4:
+                        break
+                    print("⚠️ 1부터 4 사이의 숫자만 입력해야 합니다. 다시 입력해 주세요.")
+                except ValueError:
+                    print("❌ 숫자를 입력해야 합니다. 다시 입력해 주세요.")
+            manager.add_quiz(question, options, answer)
+            print("✅ 저장 완료!")
 
         elif choice == '3':
             print("\n📋 퀴즈 목록")
@@ -89,3 +103,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
