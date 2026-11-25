@@ -119,7 +119,7 @@ git commit -m "feat: 순차/랜덤 출제 및 문제 수 선택 기능 추가 �
 # 4. 원격 저장소(main 브랜치)로 최종 푸시
 git push origin main
 ```
-
+![alt text](image-1.png)
 ---
 
 ## 9. 과제 목표 및 코드 연결 포인트
