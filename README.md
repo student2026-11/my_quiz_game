@@ -120,6 +120,8 @@ git commit -m "feat: 순차/랜덤 출제 및 문제 수 선택 기능 추가 �
 git push origin main
 ```
 ![alt text](image-1.png)
+
+![alt text](image-2.png)
 ---
 
 ## 9. 과제 목표 및 코드 연결 포인트
