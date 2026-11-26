@@ -69,7 +69,17 @@
                 "유사색"
             ],
             "answer": 3
+        },
+        {
+            "question": "1 + 1 =",
+            "options": [
+                "1",
+                "2",
+                "3",
+                "4"
+            ],
+            "answer": 2
         }
     ],
-    "best_score": 250
+    "best_score": 85
 }
