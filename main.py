@@ -49,7 +49,7 @@ def run_quiz_session():
 
     # 3. 선택한 방식에 따라 문제 리스트 구성
     if mode == "1":
-        selected_quizzes = all_quizzes[:count]  # 순차 출제
+        selected_quizzes = all_quizzes[:count] # 순차 출제
     else:
         selected_quizzes = random.sample(all_quizzes, count)  # 랜덤 출제
 
